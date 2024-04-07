@@ -1,7 +1,5 @@
 extern crate chrono;
 
-
-
 mod date_time_offset_extensions {
     use chrono::{DateTime, FixedOffset, TimeZone, Utc};
 
@@ -16,7 +14,9 @@ mod date_time_offset_extensions {
             Utc.timestamp(seconds, 0)
         }
 
-        pub fn from_utc_iso8601_string(date_time: &str) -> Result<DateTime<FixedOffset>, chrono::ParseError> {
+        pub fn from_utc_iso8601_string(
+            date_time: &str,
+        ) -> Result<DateTime<FixedOffset>, chrono::ParseError> {
             DateTime::parse_from_rfc3339(date_time)
         }
 
@@ -53,7 +53,10 @@ mod date_time_offset_extensions {
         fn test_from_utc_iso8601_string() {
             let iso_string = "2021-01-01T00:00:00+00:00";
             let date_time = DateTimeOffsetExtensions::from_utc_iso8601_string(iso_string).unwrap();
-            assert_eq!(date_time, FixedOffset::east(0).ymd(2021, 1, 1).and_hms(0, 0, 0));
+            assert_eq!(
+                date_time,
+                FixedOffset::east(0).ymd(2021, 1, 1).and_hms(0, 0, 0)
+            );
         }
 
         #[test]
