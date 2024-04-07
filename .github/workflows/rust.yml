@@ -21,16 +21,4 @@ jobs:
     - name: Run tests
       run: cargo test --verbose
 
-    - name: Upload coverage reports to Codecov
-      run: |
-        # Replace `linux` below with the appropriate OS
-        # Options are `alpine`, `linux`, `macos`, `windows`
-        curl -Os https://uploader.codecov.io/latest/linux/codecov
-        chmod +x codecov
-        ./codecov -t ${CODECOV_TOKEN}  
-
-    - name: Upload coverage reports to Codecov Number2
-      uses: codecov/codecov-action@v4.0.1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        slug: thoser666/streaming-client-rust  
+   
