@@ -17,3 +17,6 @@ name = "secrets"
 
 [[analyzers]]
 name = "docker"
+
+[[transformers]]
+name = "rustfmt"
