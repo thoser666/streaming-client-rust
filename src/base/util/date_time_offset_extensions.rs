@@ -25,7 +25,7 @@ mod date_time_offset_extensions {
         }
 
         pub fn to_rfc3339_string(date_time: &DateTime<Utc>) -> String {
-            format!("{}Z", Self::to_utc_iso8601_string(date_time))
+            format!("{}", Self::to_utc_iso8601_string(date_time))
         }
     }
 
