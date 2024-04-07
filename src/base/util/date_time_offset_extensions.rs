@@ -1,6 +1,6 @@
 extern crate chrono;
 
-use chrono::TimeZone;
+
 
 mod date_time_offset_extensions {
     use chrono::{DateTime, FixedOffset, TimeZone, Utc};
