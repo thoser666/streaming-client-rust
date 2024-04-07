@@ -1,5 +1,6 @@
 extern crate chrono;
-use chrono::{DateTime, TimeZone, Utc, FixedOffset, Local};
+
+use chrono::TimeZone;
 
 mod date_time_offset_extensions {
     use chrono::{DateTime, FixedOffset, TimeZone, Utc};
@@ -30,8 +31,9 @@ mod date_time_offset_extensions {
 
     #[cfg(test)]
     mod tests {
-        use super::*;
         use chrono::prelude::*;
+
+        use super::*;
 
         #[test]
         fn test_from_utc_unix_time_milliseconds() {
