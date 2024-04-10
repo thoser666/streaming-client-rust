@@ -1,8 +1,7 @@
 mod http_rate_limited_rest_request_exception {
 
-
-    use reqwest::{Response, Error as ReqwestError};
     use reqwest::header::HeaderMap;
+    use reqwest::{Error as ReqwestError, Response};
     use thiserror::Error;
 
     // Define custom error types using thiserror for convenience.
@@ -20,7 +19,8 @@ mod http_rate_limited_rest_request_exception {
 
     // A hypothetical function that processes an HTTP response and potentially returns a rate-limited error.
     async fn process_response(response: Response) -> Result<(), HttpError> {
-        if response.status().as_u16() == 429 { // HTTP 429 Too Many Requests
+        if response.status().as_u16() == 429 {
+            // HTTP 429 Too Many Requests
             let rate_limit_bucket = response
                 .headers()
                 .get("X-RateLimit-Bucket")
@@ -47,7 +47,11 @@ mod http_rate_limited_rest_request_exception {
     async fn main() {
         // Example usage, assuming 'client' and 'request' are set up correctly.
         let client = reqwest::Client::new();
-        let response = client.get("https://api.example.com/data").send().await.unwrap();
+        let response = client
+            .get("https://api.example.com/data")
+            .send()
+            .await
+            .unwrap();
 
         match process_response(response).await {
             Ok(_) => println!("Request successful."),
@@ -55,6 +59,5 @@ mod http_rate_limited_rest_request_exception {
         }
     }
 
-//     TODO Tests
-    
+    //     TODO Tests
 }
