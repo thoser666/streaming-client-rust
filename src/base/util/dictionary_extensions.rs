@@ -11,9 +11,9 @@ mod dictionary_extensins {
     /// # Returns
     /// The value at the specified key or the default of the value type.
     pub fn get_or_default<K, V>(map: &HashMap<K, V>, key: K) -> V
-        where
-            K: Eq + Hash,
-            V: Default + Clone,
+    where
+        K: Eq + Hash,
+        V: Default + Clone,
     {
         match map.get(&key) {
             Some(value) => value.clone(),
@@ -38,7 +38,10 @@ mod dictionary_extensins {
             let mut map = HashMap::new();
             map.insert("apple", 3);
             let count = get_or_default(&map, "orange");
-            assert_eq!(count, 0, "Should return the default value for non-existing key.");
+            assert_eq!(
+                count, 0,
+                "Should return the default value for non-existing key."
+            );
         }
 
         #[test]
@@ -50,18 +53,34 @@ mod dictionary_extensins {
             }
 
             let mut map = HashMap::new();
-            map.insert("apple", Fruit { name: "Apple".to_string(), quantity: 10 });
+            map.insert(
+                "apple",
+                Fruit {
+                    name: "Apple".to_string(),
+                    quantity: 10,
+                },
+            );
 
             let result = get_or_default(&map, "apple");
-            assert_eq!(result, Fruit { name: "Apple".to_string(), quantity: 10 }, "Should return the correct fruit object.");
+            assert_eq!(
+                result,
+                Fruit {
+                    name: "Apple".to_string(),
+                    quantity: 10
+                },
+                "Should return the correct fruit object."
+            );
 
             let default_fruit = get_or_default(&map, "banana");
-            assert_eq!(default_fruit, Fruit::default(), "Should return the default fruit object.");
+            assert_eq!(
+                default_fruit,
+                Fruit::default(),
+                "Should return the default fruit object."
+            );
         }
     }
 
     fn main() {
         // The main function remains empty, as we use this file mainly for the library functionality and tests.
     }
- 
 }
