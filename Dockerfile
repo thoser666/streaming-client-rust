@@ -11,7 +11,7 @@ COPY Cargo.toml Cargo.lock ./
 # build dependencies, when my source code changes, this build can be cached, we don't need to compile dependency again.
 RUN cargo build
 # remove the dummy build.
-RUN cargo clean -p $project_name_specified_in_cargo
+RUN cargo clean -p streaming-client-rust
 
 RUN cargo install --path .
 
