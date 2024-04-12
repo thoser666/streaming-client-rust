@@ -6,7 +6,7 @@ WORKDIR /app
 RUN cargo init
 
 COPY ./.cargo .cargo
-COPY ./vendor vendor
+# COPY ./vendor vendor # Commented out temporarely
 COPY Cargo.toml Cargo.lock ./
 # build dependencies, when my source code changes, this build can be cached, we don't need to compile dependency again.
 RUN cargo build
