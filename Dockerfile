@@ -1,7 +1,7 @@
 FROM rust:1.77 as build
 
 # create a new empty shell project
-RUN USER=root cargo new --bin holodeck
+RUN USER=root cargo new --bin streaming-client-rust
 WORKDIR /holodeck
 
 # copy over your manifests
@@ -16,14 +16,14 @@ RUN rm src/*.rs
 COPY ./src ./src
 
 # build for release
-RUN rm ./target/release/deps/holodeck*
+RUN rm ./target/release/deps/streaming-client-desktop*
 RUN cargo build --release
 
 # our final base
-FROM rust:1.49
+FROM rust:1.77
 
 # copy the build artifact from the build stage
-COPY --from=build /holodeck/target/release/holodeck .
+COPY --from=build /holodeck/target/release/streaming-client-desktop .
 
 # set the startup command to run your binary
-CMD ["./holodeck"]
+CMD ["./streaming-client-desktop"]
