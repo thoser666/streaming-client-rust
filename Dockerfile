@@ -5,7 +5,7 @@ WORKDIR /app
 # create a new empty project
 RUN cargo init
 
-COPY ./.cargo .cargo
+# COPY ./.cargo .cargo # Commented out temporarely
 # COPY ./vendor vendor # Commented out temporarely
 COPY Cargo.toml Cargo.lock ./
 # build dependencies, when my source code changes, this build can be cached, we don't need to compile dependency again.
