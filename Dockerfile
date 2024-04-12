@@ -1,29 +1,20 @@
-FROM rust:1.77 as build
+FROM rust:latest as builder
 
-# create a new empty shell project
-RUN USER=root cargo new --bin streaming-client-rust
-WORKDIR /holodeck
+WORKDIR /app
 
-# copy over your manifests
-COPY ./Cargo.lock ./Cargo.lock
-COPY ./Cargo.toml ./Cargo.toml
+# create a new empty project
+RUN cargo init
 
-# this build step will cache your dependencies
-RUN cargo build --release
-RUN rm src/*.rs
+COPY ./.cargo .cargo
+COPY ./vendor vendor
+COPY Cargo.toml Cargo.lock ./
+# build dependencies, when my source code changes, this build can be cached, we don't need to compile dependency again.
+RUN cargo build
+# remove the dummy build.
+RUN cargo clean -p $project_name_specified_in_cargo
 
-# copy your source tree
-COPY ./src ./src
+RUN cargo install --path .
 
-# build for release
-RUN rm ./target/release/deps/streaming-client-desktop*
-RUN cargo build --release
-
-# our final base
-FROM rust:1.77
-
-# copy the build artifact from the build stage
-COPY --from=build /holodeck/target/release/streaming-client-desktop .
-
-# set the startup command to run your binary
-CMD ["./streaming-client-desktop"]
+# second stage.
+FROM gcr.io/distroless/cc-debian11
+COPY --from=builder /usr/local/cargo/bin/* /usr/local/bin
