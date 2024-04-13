@@ -62,8 +62,8 @@ mod http_rate_limited_rest_request_exception {
     #[cfg(test)]
     mod tests {
         use super::*;
-        use reqwest::{Response, StatusCode};
         use reqwest::header::{HeaderMap, HeaderValue};
+        use reqwest::{Response, StatusCode};
         use serde_json::json;
         use std::str::FromStr;
         use tokio_test::block_on;
@@ -78,18 +78,18 @@ mod http_rate_limited_rest_request_exception {
         //         .try_into()
         //         .unwrap()
         // }
-        // 
+        //
         // #[tokio::test]
         // async fn test_process_response_rate_limited() {
         //     let mut headers = HeaderMap::new();
         //     headers.insert("X-RateLimit-Bucket", HeaderValue::from_static("bucket123"));
-        // 
+        //
         //     let body = json!({
         //     "data": "Partial information"
         // }).to_string();
-        // 
+        //
         //     let response = mock_response(StatusCode::TOO_MANY_REQUESTS, headers, body);
-        // 
+        //
         //     match process_response(response).await {
         //         Err(HttpError::RateLimited { rate_limit_bucket, partial_data }) => {
         //             assert_eq!(rate_limit_bucket, "bucket123");
@@ -98,17 +98,16 @@ mod http_rate_limited_rest_request_exception {
         //         _ => panic!("Expected rate limited error"),
         //     }
         // }
-        // 
+        //
         // #[tokio::test]
         // async fn test_process_response_success() {
         //     let headers = HeaderMap::new(); // No special headers needed for a normal response.
         //     let body = json!({}).to_string();
         //     let response = mock_response(StatusCode::OK, headers, body);
-        // 
+        //
         //     assert!(process_response(response).await.is_ok());
         // }
     }
-
 
     //     TODO Tests
 }
