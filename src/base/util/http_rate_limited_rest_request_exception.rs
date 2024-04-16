@@ -1,5 +1,5 @@
 mod http_rate_limited_rest_request_exception {
-
+    use std::error::Error;
     use reqwest::header::HeaderMap;
     use reqwest::{Error as ReqwestError, Response};
     use thiserror::Error;
@@ -18,7 +18,7 @@ mod http_rate_limited_rest_request_exception {
     }
 
     // A hypothetical function that processes an HTTP response and potentially returns a rate-limited error.
-    async fn process_response(response: Response) -> Result<(), HttpError> {
+    async fn process_response(response: Result<_, Box<dyn Error>>) -> Result<(), HttpError> {
         if response.status().as_u16() == 429 {
             // HTTP 429 Too Many Requests
             let rate_limit_bucket = response
@@ -67,16 +67,18 @@ mod http_rate_limited_rest_request_exception {
         use serde_json::json;
         use std::str::FromStr;
         use tokio_test::block_on;
+        use http::{Response, StatusCode};
+        use http::header::HeaderMap;
+        use std::convert::TryFrom;
 
-        fn mock_response(status_code: StatusCode, headers: HeaderMap, body: String) -> Response {
-            Response::builder()
+        fn mock_response(status_code: StatusCode, headers: HeaderMap, body: String) -> Result<Response<String>, Box<dyn std::error::Error>> {
+            let response = Response::builder()
                 .status(status_code)
-                .headers(headers)
-                .body(reqwest::blocking::Body::from(body))
-                .unwrap()
-                .try_into()
-                .unwrap()
-        }
+                .header_map(headers) // Assuming this method exists to set headers; adjust based on actual API
+                .body(body) // Directly use the string as the body
+                .map_err(Box::new)?;
+
+            response;
         
         #[tokio::test]
         async fn test_process_response_rate_limited() {
