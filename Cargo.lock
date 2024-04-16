@@ -927,7 +927,9 @@ name = "streaming-client-rust"
 version = "0.1.0"
 dependencies = [
  "chrono",
+ "log",
  "reqwest",
+ "serde",
  "serde_json",
  "strum",
  "strum_macros",

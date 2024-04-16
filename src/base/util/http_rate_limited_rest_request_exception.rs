@@ -78,7 +78,7 @@ mod http_rate_limited_rest_request_exception {
         //         .try_into()
         //         .unwrap()
         // }
-        //
+        // 
         // #[tokio::test]
         // async fn test_process_response_rate_limited() {
         //     let mut headers = HeaderMap::new();
