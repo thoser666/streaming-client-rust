@@ -45,8 +45,8 @@ mod http_rate_limited_rest_request_exception {
     #[cfg(test)]
     mod tests {
         use super::*;
-        use reqwest::{Response, StatusCode};
         use reqwest::header::{HeaderMap, HeaderValue};
+        use reqwest::{Response, StatusCode};
         use serde_json::json;
         use std::str::FromStr;
         use tokio_test::block_on;
@@ -67,16 +67,20 @@ mod http_rate_limited_rest_request_exception {
             headers.insert("X-RateLimit-Bucket", HeaderValue::from_static("bucket123"));
 
             let body = json!({
-            "data": "Partial information"
-        }).to_string();
+                "data": "Partial information"
+            })
+            .to_string();
 
             let response = mock_response(StatusCode::TOO_MANY_REQUESTS, headers, body);
 
             match process_response(response).await {
-                Err(HttpError::RateLimited { rate_limit_bucket, partial_data }) => {
+                Err(HttpError::RateLimited {
+                    rate_limit_bucket,
+                    partial_data,
+                }) => {
                     assert_eq!(rate_limit_bucket, "bucket123");
                     assert_eq!(partial_data, Some("Partial information".to_string()));
-                },
+                }
                 _ => panic!("Expected rate limited error"),
             }
         }
@@ -95,4 +99,3 @@ mod http_rate_limited_rest_request_exception {
 fn main() {
     // The main function remains empty, as we use this file mainly for the library functionality and tests.
 }
-    
