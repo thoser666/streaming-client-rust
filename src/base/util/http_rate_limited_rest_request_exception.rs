@@ -50,15 +50,17 @@ mod http_rate_limited_rest_request_exception {
         use serde_json::json;
         use std::str::FromStr;
         use tokio_test::block_on;
+        
 
         fn mock_response(status_code: StatusCode, headers: HeaderMap, body: String) -> Response {
-            Response::builder()
-                .status(status_code)
-                .headers(headers)
-                .body(reqwest::blocking::Body::from(body))
-                .unwrap()
-                .try_into()
-                .unwrap()
+            
+             Response::builder()
+                 .status(status_code)
+                 .headers(headers)
+                 .body(reqwest::blocking::Body::from(body))
+                 .unwrap()
+                 .try_into()
+                 .unwrap()
         }
 
         #[tokio::test]
