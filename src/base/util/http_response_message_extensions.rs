@@ -58,7 +58,7 @@ mod http_response_message_extensions {
                 "HTTP request failed",
             )))
         } else {
-            Ok(String::new())
+            Ok(String::default())
         }
     }
 
