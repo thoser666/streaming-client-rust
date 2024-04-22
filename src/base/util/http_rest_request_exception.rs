@@ -1,7 +1,7 @@
 mod http_rest_request_exception {
-    use reqwest::{Response, Error as ReqwestError};
-    use thiserror::Error;
+    use reqwest::{Error as ReqwestError, Response};
     use std::fmt;
+    use thiserror::Error;
 
     #[derive(Error, Debug)]
     pub enum HttpError {
@@ -9,7 +9,11 @@ mod http_rest_request_exception {
         NetworkError(#[from] ReqwestError),
 
         #[error("HTTP request failed: {0}")]
-        HttpRequestFailed { url: String, status: reqwest::StatusCode, body: String },
+        HttpRequestFailed {
+            url: String,
+            status: reqwest::StatusCode,
+            body: String,
+        },
 
         #[error("Inner error: {0}")]
         InnerError(String),
@@ -21,11 +25,7 @@ mod http_rest_request_exception {
             let url = response.url().to_string();
             let body = response.text().await.unwrap_or_default();
 
-            HttpError::HttpRequestFailed {
-                url,
-                status,
-                body,
-            }
+            HttpError::HttpRequestFailed { url, status, body }
         }
 
         pub fn with_inner(message: &str, inner: &str) -> Self {
@@ -38,8 +38,12 @@ mod http_rest_request_exception {
             match self {
                 HttpError::NetworkError(err) => write!(f, "Network error: {}", err),
                 HttpError::HttpRequestFailed { url, status, body } => {
-                    write!(f, "HTTP request failed: URL {} - Status {} - Body {}", url, status, body)
-                },
+                    write!(
+                        f,
+                        "HTTP request failed: URL {} - Status {} - Body {}",
+                        url, status, body
+                    )
+                }
                 HttpError::InnerError(msg) => write!(f, "{}", msg),
             }
         }
@@ -47,9 +51,9 @@ mod http_rest_request_exception {
 
     #[cfg(test)]
     mod tests {
-        use reqwest::{Response, Error as ReqwestError};
-        use thiserror::Error;
+        use reqwest::{Error as ReqwestError, Response};
         use std::fmt;
+        use thiserror::Error;
 
         #[derive(Error, Debug)]
         pub enum HttpError {
@@ -57,7 +61,11 @@ mod http_rest_request_exception {
             NetworkError(#[from] ReqwestError),
 
             #[error("HTTP request failed: {0}")]
-            HttpRequestFailed { url: String, status: reqwest::StatusCode, body: String },
+            HttpRequestFailed {
+                url: String,
+                status: reqwest::StatusCode,
+                body: String,
+            },
 
             #[error("Inner error: {0}")]
             InnerError(String),
@@ -69,11 +77,7 @@ mod http_rest_request_exception {
                 let url = response.url().to_string();
                 let body = response.text().await.unwrap_or_default();
 
-                HttpError::HttpRequestFailed {
-                    url,
-                    status,
-                    body,
-                }
+                HttpError::HttpRequestFailed { url, status, body }
             }
 
             pub fn with_inner(message: &str, inner: &str) -> Self {
@@ -86,26 +90,26 @@ mod http_rest_request_exception {
                 match self {
                     HttpError::NetworkError(err) => write!(f, "Network error: {}", err),
                     HttpError::HttpRequestFailed { url, status, body } => {
-                        write!(f, "HTTP request failed: URL {} - Status {} - Body {}", url, status, body)
-                    },
+                        write!(
+                            f,
+                            "HTTP request failed: URL {} - Status {} - Body {}",
+                            url, status, body
+                        )
+                    }
                     HttpError::InnerError(msg) => write!(f, "{}", msg),
                 }
             }
         }
-
     }
 
-        //   #[tokio::main]
+    //   #[tokio::main]
     async fn main() {
         // let client = reqwest::Client::new();
         // let response = client.get("https://httpbin.org/status/500").send().await.unwrap();
-        // 
+        //
         // if !response.status().is_success() {
         //     let error = HttpError::new(response).await;
         //     println!("{}", error);
         // }
     }
-
-
-
 }
