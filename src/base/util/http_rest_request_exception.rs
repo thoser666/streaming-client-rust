@@ -93,17 +93,6 @@ mod http_rest_request_exception {
             }
         }
 
-        #[tokio::main]
-        async fn main() {
-            let client = reqwest::Client::new();
-            let response = client.get("https://httpbin.org/status/500").send().await.unwrap();
-
-            if !response.status().is_success() {
-                let error = HttpError::new(response).await;
-                println!("{}", error);
-            }
-        }
-
     }
 
         //   #[tokio::main]
