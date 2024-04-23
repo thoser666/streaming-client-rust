@@ -87,5 +87,4 @@ mod http_rest_request_exception {
     //     let e = http_rest_request_exception::from(error);
     //     assert_eq!(e.message, "500 Internal Server Error");
     // }
-   
 }
