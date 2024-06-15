@@ -1,5 +1,5 @@
-use serde_json::{Value, from_value};
 use serde::de::DeserializeOwned;
+use serde_json::{from_value, Value};
 use std::collections::VecDeque;
 use std::vec::Vec;
 
@@ -27,20 +27,20 @@ impl JArrayExtensions for Value {
 }
 
 // Usage example (uncomment for actual use):
-// 
+//
 // use serde_json::json;
-// 
+//
 // #[derive(Debug, Deserialize)]
 // struct MyStruct {
 //     field: String,
 // }
-// 
+//
 // fn main() {
 //     let json_array = json!([
 //         { "field": "value1" },
 //         { "field": "value2" }
 //     ]);
-// 
+//
 //     let result: Vec<MyStruct> = json_array.to_typed_array().unwrap();
 //     for item in result {
 //         println!("{:?}", item);
